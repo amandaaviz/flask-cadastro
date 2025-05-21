@@ -3,7 +3,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Criação automática da tabela
 def init_db():
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
@@ -19,7 +18,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-# ⚠️ Chamada do init_db DEVE ficar aqui — fora do if __name__ == '__main__'
+# Chamada da função init_db fora do bloco if __name__ == '__main__':
 init_db()
 
 @app.route('/', methods=['GET', 'POST'])
