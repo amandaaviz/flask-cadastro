@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
-import os
 
 app = Flask(__name__)
 
-# Criação automática da tabela no SQLite
+# Criação automática da tabela
 def init_db():
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
@@ -20,7 +19,9 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Rota principal: formulário de cadastro
+# ⚠️ Chamada do init_db DEVE ficar aqui — fora do if __name__ == '__main__'
+init_db()
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -40,8 +41,6 @@ def index():
         return redirect('/')
     return render_template('index.html')
 
-
-# Página de administração
 @app.route('/admin')
 def admin():
     conn = sqlite3.connect('banco.db')
@@ -51,9 +50,5 @@ def admin():
     conn.close()
     return render_template('admin.html', pesquisadores=pesquisadores)
 
-# Garante que o banco seja criado ao subir a aplicação
-init_db()
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
-
