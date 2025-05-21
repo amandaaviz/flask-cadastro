@@ -4,6 +4,9 @@ import psycopg2
 
 app = Flask(__name__)
 
+# Obtém a URL do banco de dados da variável de ambiente
+DATABASE_URL = os.environ.get("postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh")
+
 def init_db():
     conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
     cur = conn.cursor()
@@ -20,10 +23,6 @@ def init_db():
     cur.close()
     conn.close()
 
-
-# Chamada da função init_db fora do bloco if __name__ == '__main__':
-init_db()
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -36,10 +35,13 @@ def index():
 
         conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
         cur = conn.cursor()
-        cur.execute("INSERT INTO pesquisadores (nome, email, telefone, descricao) VALUES (?, ?, ?, ?)",
-                    (nome, email, telefone, descricao))
+        cur.execute("""
+            INSERT INTO pesquisadores (nome, email, telefone, descricao) 
+            VALUES (%s, %s, %s, %s)
+        """, (nome, email, telefone, descricao))
         conn.commit()
         print("[DEBUG] Cadastro inserido com sucesso.")
+        cur.close()
         conn.close()
         return redirect('/')
     return render_template('index.html')
@@ -47,12 +49,14 @@ def index():
 @app.route('/admin')
 def admin():
     conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
-
     cur = conn.cursor()
     cur.execute("SELECT * FROM pesquisadores")
     pesquisadores = cur.fetchall()
+    cur.close()
     conn.close()
     return render_template('admin.html', pesquisadores=pesquisadores)
 
 if __name__ == '__main__':
+    # Inicializa o banco de dados antes de rodar a aplicação
+    init_db()
     app.run(host='0.0.0.0', port=10000)
