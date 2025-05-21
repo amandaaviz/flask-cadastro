@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request, redirect
-import sqlite3
+import os
+import psycopg2
 
 app = Flask(__name__)
 
 def init_db():
-    conn = sqlite3.connect('banco.db')
-    cursor = conn.cursor()
-    cursor.execute('''
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute('''
         CREATE TABLE IF NOT EXISTS pesquisadores (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             nome TEXT NOT NULL,
             email TEXT NOT NULL,
             telefone TEXT NOT NULL,
@@ -16,7 +17,9 @@ def init_db():
         )
     ''')
     conn.commit()
+    cur.close()
     conn.close()
+
 
 # Chamada da função init_db fora do bloco if __name__ == '__main__':
 init_db()
@@ -43,7 +46,8 @@ def index():
 
 @app.route('/admin')
 def admin():
-    conn = sqlite3.connect('banco.db')
+    conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
+
     cur = conn.cursor()
     cur.execute("SELECT * FROM pesquisadores")
     pesquisadores = cur.fetchall()
