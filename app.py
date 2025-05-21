@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 # Obtém a URL do banco de dados da variável de ambiente
-DATABASE_URL = os.environ.get("postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def init_db():
     conn = psycopg2.connect(DATABASE_URL)
