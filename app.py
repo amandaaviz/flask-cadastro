@@ -24,10 +24,13 @@ def init_db():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        nome = request.form['nome']
-        email = request.form['email']
-        telefone = request.form['telefone']
-        descricao = request.form['descricao']
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        telefone = request.form.get('telefone')
+        descricao = request.form.get('descricao')
+
+        print(f"[DEBUG] Recebido: {nome}, {email}, {telefone}, {descricao}")
+
         conn = sqlite3.connect('banco.db')
         cur = conn.cursor()
         cur.execute("INSERT INTO pesquisadores (nome, email, telefone, descricao) VALUES (?, ?, ?, ?)",
@@ -36,6 +39,7 @@ def index():
         conn.close()
         return redirect('/')
     return render_template('index.html')
+
 
 # Página de administração
 @app.route('/admin')
