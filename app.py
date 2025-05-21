@@ -8,7 +8,7 @@ app = Flask(__name__)
 DATABASE_URL = os.environ.get("postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh")
 
 def init_db():
-    conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
+    conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     cur.execute('''
         CREATE TABLE IF NOT EXISTS pesquisadores (
@@ -33,7 +33,7 @@ def index():
 
         print(f"[DEBUG] Recebido: {nome}, {email}, {telefone}, {descricao}")
 
-        conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
+        conn = psycopg2.connect(DATABASE_URL)
         cur = conn.cursor()
         cur.execute("""
             INSERT INTO pesquisadores (nome, email, telefone, descricao) 
@@ -48,7 +48,7 @@ def index():
 
 @app.route('/admin')
 def admin():
-    conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
+    conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     cur.execute("SELECT * FROM pesquisadores")
     pesquisadores = cur.fetchall()
@@ -60,3 +60,4 @@ if __name__ == '__main__':
     # Inicializa o banco de dados antes de rodar a aplicação
     init_db()
     app.run(host='0.0.0.0', port=10000)
+
