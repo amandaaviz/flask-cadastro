@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 def init_db():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
     cur = conn.cursor()
     cur.execute('''
         CREATE TABLE IF NOT EXISTS pesquisadores (
@@ -34,7 +34,7 @@ def index():
 
         print(f"[DEBUG] Recebido: {nome}, {email}, {telefone}, {descricao}")
 
-        conn = sqlite3.connect('banco.db')
+        conn = psycopg2.connect(postgresql://flaskuser:qIZp8Qm5HXciIV5u7cJ50RjDQkeJMzq0@dpg-d0n2b1qli9vc73810j50-a/flaskdb_tngh)
         cur = conn.cursor()
         cur.execute("INSERT INTO pesquisadores (nome, email, telefone, descricao) VALUES (?, ?, ?, ?)",
                     (nome, email, telefone, descricao))
