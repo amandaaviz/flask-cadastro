@@ -36,6 +36,7 @@ def index():
         cur.execute("INSERT INTO pesquisadores (nome, email, telefone, descricao) VALUES (?, ?, ?, ?)",
                     (nome, email, telefone, descricao))
         conn.commit()
+        print("[DEBUG] Cadastro inserido com sucesso.")
         conn.close()
         return redirect('/')
     return render_template('index.html')
