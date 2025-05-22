@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: flaskCadastro
+    name: flask-cadastro
     env: python
     buildCommand: python init_db_script.py
     startCommand: gunicorn app:app
