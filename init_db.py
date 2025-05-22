@@ -1,4 +1,5 @@
 from app import init_db
 
-init_db()
-print("✅ Tabela criada com sucesso!")
+if __name__ == '__main__':
+    init_db()
+
