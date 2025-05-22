@@ -2,6 +2,6 @@ services:
   - type: web
     name: flask-cadastro
     env: python
-    buildCommand: ""
+    buildCommand: python init_db.py
     startCommand: gunicorn app:app
     plan: free
