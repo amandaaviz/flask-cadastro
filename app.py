@@ -13,7 +13,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
     print("Erro: A variável de ambiente DATABASE_URL não está definida.")
     sys.exit(1)
-init_db()
+
 
 def get_connection():
     """Ajusta a URL para compatibilidade com psycopg2 e retorna uma conexão."""
